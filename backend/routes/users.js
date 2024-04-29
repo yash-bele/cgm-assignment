@@ -11,6 +11,6 @@ const auth = require("../utils/authMiddleware");
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/follow/:id").get(auth, followUser);
-router.route("/users").get(getAllUsers);
+router.route("/users").get(auth, getAllUsers);
 
 module.exports = router;
