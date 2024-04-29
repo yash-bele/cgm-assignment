@@ -65,7 +65,10 @@ const followUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({});
+    const { page = 1 } = req.query;
+    const users = await User.find({ _id: { $ne: req.user } })
+      .skip((page - 1) * 10)
+      .limit(10);
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json(error);
