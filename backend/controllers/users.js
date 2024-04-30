@@ -11,7 +11,7 @@ const registerUser = async (req, res) => {
     } else {
       const hashPassword = await bcrypt.hash(password, 1);
       const user = await User.create({ ...req.body, password: hashPassword });
-      res.status(201).json(user);
+      res.status(201).json(token(user._id));
     }
   } catch (error) {
     res.status(500).json(error);

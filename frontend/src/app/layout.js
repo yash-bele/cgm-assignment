@@ -1,6 +1,6 @@
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import StoreProvider from "@/store/StoreProvider";
+import AsyncProvider from "@/store/AsyncProvider";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <StoreProvider>{children}</StoreProvider>
+        <AsyncProvider>{children}</AsyncProvider>
       </body>
     </html>
   );
