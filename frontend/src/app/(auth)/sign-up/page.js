@@ -4,9 +4,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useEffect, useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import { useRegisterUserMutation } from "@/store/api";
+import { useDispatch } from "react-redux";
+import { setToken } from "@/store/authSlice";
 
 export default function SignUp() {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [registerUser, { isLoading, isSuccess, isError, data }] = useRegisterUserMutation();
   const [inputs, setInputs] = useState({ firstName: "", lastName: "", userName: "", phone: "", image: "", email: "", password: "" });
   const handleChange = (param) => (e) => setInputs({ ...inputs, [param]: e.target.value });
@@ -16,8 +22,13 @@ export default function SignUp() {
   };
 
   useEffect(() => {
-    isSuccess && localStorage.setItem("token", data);
-    isError && toast.error("Registration failed!");
+    if (isSuccess) {
+      dispatch(setToken(data));
+      setCookie("token", data);
+      router.replace("/dashboard");
+    } else if (isError) {
+      toast.error("Registration failed!");
+    }
   }, [isSuccess, isError]);
 
   return (
@@ -33,19 +44,19 @@ export default function SignUp() {
           </div>
         </section>
         <section className="flex space-x-5">
-          <div className="h-10 border-2 border-white/25 rounded-full w-full">
-            <input value={inputs.userName} onChange={handleChange("userName")} type="text" spellCheck="false" required placeholder="User name" className="outline-none w-full h-full px-5 bg-transparent placeholder:text-white/75" />
+          <div className="h-10 border-2 border-white/50 rounded-full w-full">
+            <input value={inputs.userName} onChange={handleChange("userName")} type="text" spellCheck="false" required placeholder="Username *" className="outline-none w-full h-full px-5 bg-transparent placeholder:text-white" />
           </div>
           <div className="h-10 border-2 border-white/25 rounded-full w-full">
             <input value={inputs.phone} onChange={handleChange("phone")} type="number" placeholder="Phone number" className="outline-none w-full h-full px-5 bg-transparent placeholder:text-white/75" />
           </div>
         </section>
         <section className="flex space-x-5">
-          <div className="h-10 border-2 border-white/25 rounded-full w-full">
-            <input value={inputs.email} onChange={handleChange("email")} type="email" spellCheck={false} required placeholder="Email address" className="outline-none w-full h-full px-5 bg-transparent placeholder:text-white/75" />
+          <div className="h-10 border-2 border-white/50 rounded-full w-full">
+            <input value={inputs.email} onChange={handleChange("email")} type="email" spellCheck={false} required placeholder="Email address *" className="outline-none w-full h-full px-5 bg-transparent placeholder:text-white" />
           </div>
-          <div className="h-10 border-2 border-white/25 rounded-full w-full">
-            <input value={inputs.password} onChange={handleChange("password")} type="text" spellCheck="false" required placeholder="Password" className="outline-none w-full h-full px-5 bg-transparent placeholder:text-white/75" />
+          <div className="h-10 border-2 border-white/50 rounded-full w-full">
+            <input value={inputs.password} onChange={handleChange("password")} type="text" spellCheck="false" required placeholder="Password *" className="outline-none w-full h-full px-5 bg-transparent placeholder:text-white" />
           </div>
         </section>
         <div className="w-full">
