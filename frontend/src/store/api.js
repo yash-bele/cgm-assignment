@@ -15,7 +15,7 @@ export const api = createApi({
   endpoints: (builder) => ({
     loginUser: builder.mutation({ query: (payload) => ({ url: "/login", method: "POST", body: payload }), invalidatesTags: ["Users"] }),
     registerUser: builder.mutation({ query: (payload) => ({ url: "/register", method: "POST", body: payload }), invalidatesTags: ["Users"] }),
-    getAllUsers: builder.query({ query: (page) => ({ url: `/users/${page}`, method: "GET" }), providesTags: ["Users"] }),
+    getAllUsers: builder.query({ query: () => ({ url: "/users", method: "GET" }), providesTags: ["Users"] }),
     getUser: builder.query({ query: () => ({ url: "/user", method: "GET" }), providesTags: ["Users"] }),
     followUser: builder.mutation({
       query: ({ userId, pointerId }) => ({ url: `/follow/${pointerId}`, method: "GET" }),

@@ -2,12 +2,12 @@
 import { useFollowUserMutation } from "@/store/api";
 import { getCookie } from "cookies-next";
 
-export default function CardGrid({ data, userId }) {
+export default function CardGrid({ data, userId, page }) {
   const [followUser] = useFollowUserMutation();
 
   return (
     <div className="grid grid-cols-5 grid-rows-2 flex-1 gap-5">
-      {data?.map((i) => {
+      {data?.slice(page * 10 - 10, page * 10).map((i) => {
         const followExist = i?.followers?.includes(userId);
         return (
           <div key={i?._id} className="bg-slate-800 rounded-xl grid place-items-center relative">
