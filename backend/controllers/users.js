@@ -69,7 +69,7 @@ const getAllUsers = async (req, res) => {
     const users = await User.find({ _id: { $ne: req.user } })
       .skip((page - 1) * 10)
       .limit(10);
-    res.status(200).json({ users, length: User.length - 1 });
+    res.status(200).json({ users, count: User.length - 1 });
   } catch (error) {
     res.status(500).json(error);
   }

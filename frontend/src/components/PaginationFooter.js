@@ -3,7 +3,7 @@ import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 
-export default function PaginationFooter({ setPage }) {
+export default function PaginationFooter({ length, setPage }) {
   const handlePageChange = ({ selected }) => {
     setPage(selected + 1);
   };
