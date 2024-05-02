@@ -15,8 +15,8 @@ export default function Dashboard() {
     <main className="text-white bg-slate-900 w-screen h-screen p-5">
       <div className="max-w-7xl h-full mx-auto space-y-5 flex flex-col">
         <InfoHeader data={user} />
-        {isLoading ? <Loading /> : <CardGrid data={allUsers} userId={user?._id} page={page} />}
-        <PaginationFooter data={allUsers} setPage={setPage} />
+        {isLoading ? <Loading /> : <CardGrid data={allUsers?.slice(page * 10 - 10, page * 10)} userId={user?._id} page={page} />}
+        {!isLoading && <PaginationFooter length={allUsers?.length} setPage={setPage} />}
       </div>
     </main>
   );
